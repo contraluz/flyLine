@@ -17,11 +17,9 @@
 
 <body>
   <canvas id="canvas" width="600" height="300"></canvas>
-  <!-- <img src="./plane.png" id="plane" alt="plane"> -->
   <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
-    const image = document.getElementById("plane");
 
     let t = 0;
 
@@ -136,9 +134,6 @@
 
       // arrow箭头
       drawArrow(ctx, pb_behind.x, pb_behind.y, pb.x, pb.y, 15, 15, 3, "rgb(255, 193, 7)");
-
-      // 飞机
-      // ctx.drawImage(image, pb.x, pb.y, 20, 20);
     }
 
     function computeCurvePoint(a0, a1, a2, t) {
