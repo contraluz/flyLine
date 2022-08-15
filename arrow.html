@@ -30,11 +30,6 @@
         y: 20
       },
         p1 = {
-          // 控制点坐标
-          x: 220,
-          y: 100
-        },
-        p2 = {
           // 结束点坐标
           x: 300,
           y: 220
@@ -42,18 +37,17 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      let pFront = {}; // 小球、箭头的x/y轴坐标
-      let pBehind = {}; // 箭头的上一一段时间的刻度行成的伪直线
-      pFront.x = computeCurvePoint(p0.x, p1.x, p2.x, t);
-      pFront.y = computeCurvePoint(p0.y, p1.y, p2.y, t);
-      pBehind.x = computeCurvePoint(p0.x, p1.x, p2.x, t - 0.01 || 0);
-      pBehind.y = computeCurvePoint(p0.y, p1.y, p2.y, t - 0.01 || 0);
-      ctx.save();
-      ctx.strokeStyle = 'rgba(255, 193, 7,1)';
-
       // 开始画小球/箭头
-      arc(pFront, pBehind);
-      ctx.restore();
+      let pFront = {
+        x: 20 + (300 - 20) * t,
+        y: 20 + (220 - 20) * t,
+      },
+        pBehind = {
+          x: 20 + (300 - 20) * (t - 0.01 || 0),
+          y: 20 + (220 - 20) * (t - 0.01 || 0),
+        }
+      arrow(pFront, pBehind);
+
 
       // 设置曲线的线性渐变
       function createGradient(ctx) {
@@ -66,16 +60,21 @@
       ctx.beginPath();
       ctx.moveTo(p0.x, p0.y);
       // 设置曲线位置
-      ctx.quadraticCurveTo(p1.x, p1.y, p2.x, p2.y);
+      ctx.lineTo(p1.x, p1.y);
       // 设置曲线其它信息
       ctx.lineCap = 'round';
       ctx.lineWidth = 3;
+
+      // ctx.strokeStyle = "rgba(255, 193, 70, 1)";
       ctx.strokeStyle = createGradient(ctx);
+
       // 整体模糊操作，会影响箭头的视觉效果
       // ctx.shadowColor = 'rgb(255, 193, 7)';
       // ctx.shadowBlur = 5;
+
       // 绘制曲线
       ctx.stroke();
+
 
       t += 0.01;
 
@@ -86,28 +85,44 @@
       requestAnimationFrame(draw);
     }
 
+    /**
+     * 绘制箭头
+     * @param {ctx} canvas 2d绘图对象
+     * @param {fromX} 开始点x坐标
+     * @param {fromY} 开始点y坐标
+     * @param {toX} 结束点x坐标
+     * @param {toY} 结束点y坐标
+     * @param {theta} 箭头展开的角度
+     * @param {headlen} 箭头双侧边的长度
+     * @param {width} 箭头线宽
+     * @param {color} 箭头颜色
+     */
+
     function drawArrow(ctx, fromX = 0, fromY = 0, toX = 10, toY = 0, theta = 10, headlen = 10, width = 1, color = "#000") {
       if (!ctx) {
         return console.error("ctx不存在");
       }
 
-      // 计算各角度和对应的P2,P3坐标
+      // 计算开始点到结束点的原始角度大小
       let angle = Math.atan2(fromY - toY, fromX - toX) * 180 / Math.PI,
+
+        // 计算两条边加上函数传参的展开角度theta之后，的实际角度大小
         angle1 = (angle + theta) * Math.PI / 180,
         angle2 = (angle - theta) * Math.PI / 180,
+
+        // 计算两条边的开始、结束位置的坐标信息
         topX = headlen * Math.cos(angle1),
         topY = headlen * Math.sin(angle1),
         botX = headlen * Math.cos(angle2),
         botY = headlen * Math.sin(angle2);
 
-      ctx.save();
       ctx.beginPath();
 
       let arrowX = toX + topX;
       arrowY = toY + topY;
       // 从左侧的一半箭头开始画
       ctx.moveTo(arrowX, arrowY);
-      // 画到当前与曲线的交点
+      // 画到当前与线的交点
       ctx.lineTo(toX, toY);
       arrowX = toX + botX;
       arrowY = toY + botY;
@@ -119,23 +134,12 @@
       ctx.restore();
     }
 
-    function arc(pFront, pBehind) {
-      // 小球
-      // ctx.beginPath();
-      // ctx.arc(pFront.x, pFront.y, 2, 0, Math.PI * 2);
-      // ctx.stroke();
-
+    function arrow(pFront, pBehind) {
       // arrow箭头
       drawArrow(ctx, pBehind.x, pBehind.y, pFront.x, pFront.y, 15, 15, 3, "rgb(255, 193, 7)");
     }
 
-    // 二次贝塞尔曲线的公式
-    function computeCurvePoint(a0, a1, a2, t) {
-      let b = (1 - t) * (1 - t) * a0 + 2 * (1 - t) * t * a1 + t * t * a2;
-      return b;
-    }
-
-    draw()
+    draw();
   </script>
 </body>
 
