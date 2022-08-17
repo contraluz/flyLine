@@ -19,7 +19,7 @@
   <canvas id="canvas" width="600" height="300"></canvas>
   <script>
     const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d"); // 获取在canvas画布上绘图的环境
 
     let t = 0;
 
@@ -56,7 +56,7 @@
       // ctx.strokeStyle = "rgba(255, 193, 70, 1)";
       ctx.strokeStyle = createGradient(ctx);
 
-      // 整体模糊操作，会影响箭头的视觉效果
+      // 整体模糊操作
       // ctx.shadowColor = 'rgb(255, 193, 7)';
       // ctx.shadowBlur = 5;
 
