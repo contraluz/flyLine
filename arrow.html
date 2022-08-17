@@ -82,7 +82,7 @@
         t = 0;
       }
 
-      // requestAnimationFrame(draw);
+      requestAnimationFrame(draw);
     }
 
     /**
@@ -116,7 +116,6 @@
         botX = headlen * Math.cos(angle2),
         botY = headlen * Math.sin(angle2);
       
-      console.log(angle, angle + theta, angle - theta)
       ctx.beginPath();
 
       let arrowX = toX + topX;
