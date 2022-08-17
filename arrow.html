@@ -82,7 +82,7 @@
         t = 0;
       }
 
-      requestAnimationFrame(draw);
+      // requestAnimationFrame(draw);
     }
 
     /**
@@ -115,18 +115,19 @@
         topY = headlen * Math.sin(angle1),
         botX = headlen * Math.cos(angle2),
         botY = headlen * Math.sin(angle2);
-
+      
+      console.log(angle, angle + theta, angle - theta)
       ctx.beginPath();
 
       let arrowX = toX + topX;
       arrowY = toY + topY;
-      // 从左侧的一半箭头开始画
+      // 从右侧的一半箭头开始画
       ctx.moveTo(arrowX, arrowY);
       // 画到当前与线的交点
       ctx.lineTo(toX, toY);
       arrowX = toX + botX;
       arrowY = toY + botY;
-      // 从交点画上右侧的一半箭头
+      // 从交点画上左侧的一半箭头
       ctx.lineTo(arrowX, arrowY);
       ctx.strokeStyle = color;
       ctx.lineWidth = width;
