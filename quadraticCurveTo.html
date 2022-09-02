@@ -46,7 +46,7 @@
       let pBehind = {}; // 箭头的上一一段时间的刻度行成的伪直线
       pFront.x = computeCurvePoint(p0.x, p1.x, p2.x, t);
       pFront.y = computeCurvePoint(p0.y, p1.y, p2.y, t);
-      // 不可以用-1px，-1px是45度固定角
+      // 不可以用-1px，1px是45度固定角
       pBehind.x = computeCurvePoint(p0.x, p1.x, p2.x, t - 0.01 || 0);
       pBehind.y = computeCurvePoint(p0.y, p1.y, p2.y, t - 0.01 || 0);
       ctx.save();
